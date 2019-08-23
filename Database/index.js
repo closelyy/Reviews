@@ -11,19 +11,19 @@ module.exports = db;
 
 db.connect();
 
-var getReviewsData = function(data, callback) {
+var getReviewsData = function(data, callback) {  // First function in the chain, gets base review data for a given business
   db.query(`SELECT * FROM REVIEWS WHERE BUSINESS_ID="${data.business.ID}"`, function(err, reviews) {
     data.reviews = reviews;
     getUserData(data, callback);
   });
 }
 
-var getUserData = function(data, callback) {
+var getUserData = function(data, callback) {  // Gets user data based on USER_ID's found in reviews data
   var userIds = [];
   data.reviews.forEach(function(review) {
     userIds.push(review.USER_ID);
   });
-  data.userIds = [];
+  data.userIds = userIds;
   var userQuery = `SELECT * FROM USERS WHERE `;
   for (var i = 0; i < userIds.length; i++) {
     userQuery += `ID="${userIds[i]}"`;
@@ -41,11 +41,11 @@ var getUserData = function(data, callback) {
         }
       }
     });
-    getPhotoData(data, callback);
+    getReviewsPhotoData(data, callback);
   });
 }
 
-var getReviewsPhotoData = function(data, callback) {
+var getReviewsPhotoData = function(data, callback) {  // Gets photos associated with the businesses reviews
   db.query(`SELECT * FROM PHOTOS WHERE BUSINESS_ID="${data.business.ID}"`, function(err, photos) {
     data.reviews.forEach(function(review) {
       for(var i = 0; i < photos.length; i++) {
@@ -55,19 +55,19 @@ var getReviewsPhotoData = function(data, callback) {
             review.photos = [];
           }
           review.photos.push(photos[i].ID);
-        } else if (review.user.)
+        }
       }
     });
     getUserPhotoData(data, callback);
   });
 }
 
-var getUserPhotoData = function(data, callback) {
-  console.log(data.userIds);
+var getUserPhotoData = function(data, callback) {  // Gets avatar photos of users who are author's of the reviews
+  // console.log(data.userIds);
   var userQuery = `SELECT * FROM PHOTOS WHERE BUSINESS_ID="NULL" AND `;
-  for (var i = 0; i < userIds.length; i++) {
-    userQuery += `USER_ID="${userIds[i]}"`;
-    if (i === userIds.length - 1) {
+  for (var i = 0; i < data.userIds.length; i++) {
+    userQuery += `USER_ID="${data.userIds[i]}"`;
+    if (i === data.userIds.length - 1) {
       userQuery += `;`
     } else {
       userQuery += ` OR `
@@ -88,7 +88,7 @@ var getUserPhotoData = function(data, callback) {
 }
 
 
-module.exports.getReviews = function(id, callback) {
+module.exports.getReviews = function(id, callback) {  // Export to ../server/server.js
   db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, function(err, business) {
     var data = {};
     data.business = business[0];
