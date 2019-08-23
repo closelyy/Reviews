@@ -87,7 +87,6 @@ var getUserPhotoData = function(data, callback) {  // Gets avatar photos of user
   });
 }
 
-
 module.exports.getReviews = function(id, callback) {  // Export to ../server/server.js
   db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, function(err, business) {
     var data = {};
