@@ -62,6 +62,7 @@ var getReviewsPhotoData = function(data, callback) {  // Gets photos associated 
   });
 }
 
+
 var getUserPhotoData = function(data, callback) {  // Gets avatar photos of users who are author's of the reviews
   // console.log(data.userIds);
   var userQuery = `SELECT * FROM PHOTOS WHERE BUSINESS_ID="NULL" AND `;
@@ -86,7 +87,6 @@ var getUserPhotoData = function(data, callback) {  // Gets avatar photos of user
     callback(data);
   });
 }
-
 
 module.exports.getReviews = function(id, callback) {  // Export to ../server/server.js
   db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, function(err, business) {
