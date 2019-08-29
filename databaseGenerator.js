@@ -6,7 +6,7 @@ var filePath = path.join(__dirname, `./schema.sql`);
 
 // INSERT INTO users (ID, NAME, TOWNLOC, FRIENDS, REVIEWS, PHOTOS) 
 //   VALUES ("LKAJASOI4F24902V4MVIOWE", "Susie Q", "Oakland, CA", 27, 99, 20);
-var numUsers = 2000;
+var numUsers = 300;
 var numBusinesses = 100;
 var numReviews = 4000;
 var numPhotos = 1000;
@@ -15,6 +15,7 @@ var numMessages = 100;
 module.exports.numPhotos = numPhotos;
 //========================================================
 // USERS SECTION
+var photoToUserIds = [];
 var createUser = function(index) {
   var user = {};
   user.id = index;
@@ -23,7 +24,12 @@ var createUser = function(index) {
   user.friends = Math.floor(Math.random() * 1000);
   user.reviews = Math.floor(Math.random() * 1000);
   user.photos = Math.floor(Math.random() * 100);
-  user.photo_id = 'NULL';
+  var photo_id = Math.floor(Math.random() * numPhotos + 1);
+  while (photoToUserIds.includes(photo_id)) {
+    photo_id = Math.floor(Math.random() * numPhotos + 1);
+  }
+  photoToUserIds.push([photo_id, user.id]);
+  user.photo_id = photo_id.toString();
   return user;
 }
 var convertUsersToSql = function(users) {
@@ -69,7 +75,7 @@ var createReview = function(index) {
   businesses[Number(review.business_id) - 1].review_count += 1;
   review.stars = Math.floor(Math.random() * 5) + 1;
   review.review_date = faker.date.between('2015-01-01', '2019-7-31')
-  review.review_text = faker.lorem.paragraph();
+  review.review_text = faker.lorem.paragraphs(5);
   review.useful = Math.floor(Math.random() * 100);
   review.funny = Math.floor(Math.random() * 100);
   review.cool = Math.floor(Math.random() * 100);
@@ -89,13 +95,23 @@ for (var i = 1; i <= numReviews; i++) {
 }
 //========================================================
 // PHOTOS SECTION
+var avatarIds = [];
+var photoIds = [];
+photoToUserIds.forEach(function(ele) {
+  avatarIds.push(ele[1]);
+  photoIds.push(ele[0]);
+});
+module.exports.photoIds = photoIds;
 var createPhoto = function(index) {
   var photo = {};
   photo.id = index;
-  if (Math.random().toFixed(2) > .65) {
+  var i = photoIds.indexOf(index);
+  if (i > -1) {
+    photo.user_id = avatarIds[i];
+  } else {
     photo.business_id = businesses[Math.floor(Math.random() * numBusinesses)].id;
+    photo.user_id = users[Math.floor(Math.random() * numUsers)].id;
   }
-  photo.user_id = users[Math.floor(Math.random() * numUsers)].id;
   return photo;
 }
 var convertPhotosToSql = function(photos) {
@@ -117,7 +133,7 @@ var createMessage = function(index) {
   message.id = index;
   message.author_id = users[Math.floor(Math.random() * numUsers)].id;
   message.recipient_id = users[Math.floor(Math.random() * numUsers)].id;
-  message.messageText = faker.lorem.paragraph();
+  message.messageText = faker.lorem.paragraph(1);
   message.subject = faker.lorem.sentence();
   return message;
 }
@@ -181,7 +197,7 @@ CREATE TABLE reviews (
   -- STAR RATING,
   REVIEW_DATE VARCHAR(255),
   -- REVIEW DATE,
-  REVIEW_TEXT VARCHAR(1000),
+  REVIEW_TEXT VARCHAR(3000),
   -- REVIEW CONTENT,
   USEFUL INT,
   -- USEFUL VOTES,

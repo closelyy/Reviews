@@ -11,6 +11,28 @@ module.exports = db;
 
 db.connect();
 
+module.exports.updateVote = function(info, callback) {  // Export to ../server/server.js
+  console.log(info);
+  var dbQuery = `UPDATE reviews SET ${info.voteType} = ${info.voteType} + 1 WHERE ID = "${info.reviewId}"`;
+  db.query(dbQuery, function(err, row) {
+    if (err) {
+      info.msg = 'Error updating database';
+      callback(info);
+    } else {
+      info.msg = 'Success';
+      callback(info);
+    }
+  });
+}
+
+module.exports.getReviews = function(id, callback) {  // Export to ../server/server.js
+  db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, function(err, business) {
+    var data = {};
+    data.business = business[0];
+    getReviewsData(data, callback);
+  });
+}
+
 var getReviewsData = function(data, callback) {  // First function in the chain, gets base review data for a given business
   db.query(`SELECT * FROM REVIEWS WHERE BUSINESS_ID="${data.business.ID}"`, function(err, reviews) {
     data.reviews = reviews;
@@ -58,40 +80,6 @@ var getReviewsPhotoData = function(data, callback) {  // Gets photos associated 
         }
       }
     });
-    getUserPhotoData(data, callback);
-  });
-}
-
-
-var getUserPhotoData = function(data, callback) {  // Gets avatar photos of users who are author's of the reviews
-  // console.log(data.userIds);
-  var userQuery = `SELECT * FROM PHOTOS WHERE BUSINESS_ID="NULL" AND `;
-  for (var i = 0; i < data.userIds.length; i++) {
-    userQuery += `USER_ID="${data.userIds[i]}"`;
-    if (i === data.userIds.length - 1) {
-      userQuery += `;`
-    } else {
-      userQuery += ` OR `
-    }
-  }
-  db.query(userQuery, function(err, photos) {
-    data.reviews.forEach(function(review) {
-      review.user.photo = '';
-      for (var i = 0; i < photos.length; i++) {
-        console.log(`found a user avatar image`);
-        if (review.user.ID === photos[i].USER_ID) {
-          review.user.photo = photos[i].ID;
-        }
-      }
-    });
     callback(data);
-  });
-}
-
-module.exports.getReviews = function(id, callback) {  // Export to ../server/server.js
-  db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, function(err, business) {
-    var data = {};
-    data.business = business[0];
-    getReviewsData(data, callback);
   });
 }

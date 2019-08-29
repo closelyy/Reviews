@@ -8,8 +8,7 @@ let port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-
+app.use(express.static(__dirname + '/../client/dist'));
 
 db.query(`SELECT ID FROM businesses`, (err,ids) => {  // Gets list of business IDs from the database, creates API routes for each one
   ids = ids.map(function(row) {
@@ -25,6 +24,13 @@ db.query(`SELECT ID FROM businesses`, (err,ids) => {  // Gets list of business I
       });
     });
   }
+});
+
+app.post(`/api/reviews/vote`, function (req, res) {
+  console.log(`${req.method} request received from ${req.url}`);
+  db.updateVote(req.body.info, (response) => {
+    res.send(response);
+  });
 });
 
 app.listen(port, function() {
