@@ -1,4 +1,4 @@
-import React, { component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 // import Search from './components/Search.jsx';
@@ -7,32 +7,39 @@ import ReviewList from './components/ReviewList.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      reviews: []
-    }
+    this.state = {
+      reviews: [],
+    };
+    this.onVoteClick = this.onVoteClick.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/reviews/37')
       .then((response) => {
-        response = response.json();
-        return response;
+        const res = response.json();
+        return res;
       })
       .then((reviews) => {
-        this.setState({ reviews: reviews.reviews });
+        console.log(reviews);
+        this.setState({ reviews });
       });
   }
 
-  search (term, updateCB) {
-    // stretch goal
+  onVoteClick(e) {
+    const info = {};
+    info.reviewId = e.target.getAttribute('reviewId');
+    [, info.voteType] = e.target.getAttribute('class').split(' ');
+    $.post('/api/reviews/vote', { info }, this.updateVotes.bind(this));
   }
 
   updateVotes(voteInfo) {
     if (voteInfo.msg === 'Success') {
-      this.setState(state => {
-        const reviews = state.reviews.map(function(review) {
+      this.setState((state) => {
+        const reviews = state.reviews.map((review) => {
           if (review.ID === voteInfo.reviewId) {
-            review[voteInfo.voteType.toUpperCase()] += 1;
+            const updatedReview = review;
+            updatedReview[voteInfo.voteType.toUpperCase()] += 1;
+            return updatedReview;
           }
           return review;
         });
@@ -41,22 +48,13 @@ class App extends React.Component {
     }
   }
 
-  onVoteClick (e) {
-    var info = {};
-    info.reviewId = e.target.getAttribute('reviewId');
-    info.voteType = e.target.getAttribute('class').split(' ')[1];
-    $.post('/api/reviews/vote', { info }, this.updateVotes.bind(this));
-  }
-
-  render () {
-
+  render() {
+    const reviews = this.state.reviews;
     return (
       <div>
-        <h1>Reviews</h1>
-        <ReviewList voteClick={this.onVoteClick.bind(this)} reviews={this.state.reviews}/>
-        
+        <ReviewList voteClick={this.onVoteClick} reviews={reviews} />
       </div>
-    )
+    );
   }
 }
 
