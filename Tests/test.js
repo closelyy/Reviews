@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Review from '../client/src/components/Review';
 import ReviewList from '../client/src/components/ReviewList';
-import App from '../client/src/index'
+// import App from '../client/src/index'
 
 // ------------------- Review ----------------------
 describe('Review: Testing DOM renders', () => {
