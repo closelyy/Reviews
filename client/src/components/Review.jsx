@@ -21,7 +21,7 @@ const Review = (props) => {
     photos = props.review.photos.map((photoId) => (
       <img
         alt=""
-        className="avatar"
+        className="review-photo"
         src={['./Pictures/', photoId, '.png'].join('')}
       />
     ));
@@ -69,17 +69,17 @@ const Review = (props) => {
         <div className="review-text">{REVIEW_TEXT}</div>
         <div className="review-photos">{photos}</div>
         <div className="review-votes">
-          <button type="button" onClick={props.voteClick} className="review-voteButtons">
+          <button type="button" onClick={props.voteClick} className="review-voteButtons useful">
             <div reviewid={ID} className="review-vote useful">
               {usefulText}
             </div>
           </button>
-          <button type="button" onClick={props.voteClick} className="review-voteButtons">
+          <button type="button" onClick={props.voteClick} className="review-voteButtons funny">
             <div reviewid={ID} className="review-vote funny">
               {funnyText}
             </div>
           </button>
-          <button type="button" onClick={props.voteClick} className="review-voteButtons">
+          <button type="button" onClick={props.voteClick} className="review-voteButtons cool">
             <div reviewid={ID} className="review-vote cool">
               {coolText}
             </div>

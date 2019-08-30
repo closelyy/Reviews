@@ -10,7 +10,7 @@
     "seed": "node databaseGenerator.js; mysql -u root < schema.sql; node ./server/pictureGraber.js",
     "server": "nodemon --watch ./server/server.js",
     "react-dev": "webpack -d --watch",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
