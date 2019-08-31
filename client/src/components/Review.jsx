@@ -10,19 +10,39 @@ const Review = (props) => {
     userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
   }
   let { photos } = props.review;
+  console.log(photos);
   if (photos) {
     photos = props.review.photos.map((photoId) => (
       <img
         alt=""
         className="review-photo"
-        src={'./Pictures/{photoId}.png'}
+        src={['./Pictures/', photoId, '.png'].join('')}
       />
     ));
   }
   if (photos === []) {
     photos = '';
   }
-  const rating = `Rating: ${STARS} out of 5   `;
+  let ratingHTML = [1,2,3,4,5].map((rating) => {
+    if ( rating <= Number(STARS)) {
+      return (
+        <span class="fa fa-star checked">⭑</span>
+      );
+    } else {
+      return (
+        <span class="fa fa-star">⭑</span>
+      );
+    }
+  });
+  console.log(ratingHTML);
+  // for (let i = 0; i < 5; i += 1) {
+  //   if ( i <= Number(STARS)) {
+  //     ratingHTML += ('<span class="fa fa-star checked"></span>');
+  //   } else {
+  //     ratingHTML += ('<span class="fa fa-star "></span>');
+  //   }
+  // }
+  // const rating = `Rating: ${STARS} out of 5   `;
   const usefulText = `Useful: ${USEFUL}`;
   const funnyText = `Funny: ${FUNNY}`;
   const coolText = `Cool: ${COOL}`;
@@ -56,7 +76,7 @@ const Review = (props) => {
       </div>
       <div className="review-content">
         <div className="review-content-top">
-          <div className="review-rating">{rating}</div>
+          <div className="review-rating">{ratingHTML}</div>
           <div className="review-date">{REVIEW_DATE.slice(4, 15)}</div>
         </div>
         <div className="review-text">{REVIEW_TEXT}</div>

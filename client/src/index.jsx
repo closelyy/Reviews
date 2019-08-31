@@ -14,12 +14,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/reviews/37')
+    fetch('/api/reviews/36')
       .then((response) => {
         const res = response.json();
         return res;
       })
       .then((reviews) => {
+        reviews.forEach((review) => {
+          if (review.photos) {
+            console.log(`Found ${review.photos.length} photos associated with this review`);
+            console.log(`photo ids: ${review.photos}`)
+          }
+        });
         console.log(reviews);
         this.setState({ reviews });
       });
