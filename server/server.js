@@ -25,6 +25,7 @@ db.query('SELECT ID FROM businesses', (err, ids) => { // Gets list of business I
       });
     });
   }
+  
 });
 
 app.post('/api/reviews/vote', (req, res) => {
