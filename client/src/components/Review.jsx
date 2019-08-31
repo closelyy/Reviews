@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components'
 
 const Review = (props) => {
   const {
@@ -23,83 +24,175 @@ const Review = (props) => {
   if (photos === []) {
     photos = '';
   }
-  let ratingHTML = [1,2,3,4,5].map((rating) => {
+  const Star = styled.span`
+    color: orange;
+  `;
+  const ratingHTML = [1,2,3,4,5].map((rating) => {
     if ( rating <= Number(STARS)) {
       return (
-        <span class="fa fa-star checked">⭑</span>
-      );
-    } else {
-      return (
-        <span class="fa fa-star">⭑</span>
+        <Star>⭑</Star>
       );
     }
   });
-  console.log(ratingHTML);
-  // for (let i = 0; i < 5; i += 1) {
-  //   if ( i <= Number(STARS)) {
-  //     ratingHTML += ('<span class="fa fa-star checked"></span>');
-  //   } else {
-  //     ratingHTML += ('<span class="fa fa-star "></span>');
-  //   }
-  // }
-  // const rating = `Rating: ${STARS} out of 5   `;
+
+  const ReviewContainer = styled.div`
+    border-top: solid 1px lightgray;
+    display: flex;
+    max-width: 600px;
+  `;
+
+  const VoteList = styled.div`
+    display: flex;
+    padding-bottom: 10px;
+    min-width: 400px;
+    padding-left: 100px;
+  `;
+
+  const ReviewText = styled.div`
+    min-width: 400px;
+    font-size: 14px;
+    padding-bottom: 10px;
+    text-align: left;
+  `;
+
+  const ReviewDate = styled.div`
+    min-width: 300px;
+    text-align: right;
+    font-size: 14px;
+  `;
+
+  const ReviewContentTop = styled.div`
+    display: flex;
+    min-width: 400px;
+    font-weight: bold;
+  `;
+
+  const ReviewRating = styled.div`
+    min-width: 120px;
+    font-size: 14px;
+    padding-bottom: 10px;
+  `;
+
+  const ReviewContent = styled.div`
+    max-width: 400px;
+    padding-top: 10px;
+  `;
+
+  const ReviewUser = styled.div`
+    padding-top: 10px;
+    min-width: 200px;
+  `;
+
+  const ReviewUserUpperAvatar = styled.img`
+    width: 80px;
+    height: 100%;
+  `;
+
+  const ReviewUserUpper = styled.div`
+    display: flex;
+  `;
+
+  const ReviewUserUpperInfo = styled.div`
+    padding: 8px;
+  `;
+
+  const ReviewUsername = styled.div`
+    color: blue;
+    font-size: 14px;
+    font-weight: bold;
+  `;
+
+  const ReviewUserStats = styled.div`
+    display: flex;
+    font-size: 12px;
+  `;
+
+  const ReviewUserNumber = styled.div`
+    padding-right: 4px;
+    font-weight: bold;
+  `;
+
+  const ReviewUserReviews = styled.div`
+    padding-right: 4px;
+    font-weight: bold;
+  `;
+
+  const ReviewUserPhotos = styled.div`
+    padding-right: 4px;
+    font-weight: bold;
+  `;
+
+  const ReviewUserLocation = styled.div`
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+  `;
+
+  const Button = styled.button`
+    color: black;
+    margin: 1px;
+    border-radius: 3px;
+    display: flex;
+    padding: 4px;
+    border: solid 2px;
+  `;
+
   const usefulText = `Useful: ${USEFUL}`;
   const funnyText = `Funny: ${FUNNY}`;
   const coolText = `Cool: ${COOL}`;
 
   return (
-    <div className="reviewContainer" id={ID}>
-      <div className="review-user">
-        <div className="review-user-upper">
-          <img
+    <ReviewContainer id={ID}>
+      <ReviewUser>
+        <ReviewUserUpper>
+          <ReviewUserUpperAvatar
             alt=""
-            className="review-user-upper-avatar"
             src={userPhotoIdUrl}
           />
-          <div className="review-user-upper-info">
-            <div className="review-username">{user.NAME}</div>
-            <div className="review-userLocation">{user.TOWNLOC}</div>
-            <div className="review-userStats">
-              <div className="review-userNumber">{user.FRIENDS}</div>
+          <ReviewUserUpperInfo>
+            <ReviewUsername>{user.NAME}</ReviewUsername>
+            <ReviewUserLocation>{user.TOWNLOC}</ReviewUserLocation>
+            <ReviewUserStats>
+              <ReviewUserNumber>{user.FRIENDS}</ReviewUserNumber>
                friends
-            </div>
-            <div className="review-userStats">
-              <div className="review-userReviews">{user.REVIEWS}</div>
+            </ReviewUserStats>
+            <ReviewUserStats>
+              <ReviewUserReviews>{user.REVIEWS}</ReviewUserReviews>
                reviews
-            </div>
-            <div className="review-userStats">
-              <div className="review-userPhotos">{user.PHOTOS}</div>
+            </ReviewUserStats>
+            <ReviewUserStats>
+              <ReviewUserPhotos>{user.PHOTOS}</ReviewUserPhotos>
                photos
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="review-content">
-        <div className="review-content-top">
-          <div className="review-rating">{ratingHTML}</div>
-          <div className="review-date">{REVIEW_DATE.slice(4, 15)}</div>
-        </div>
-        <div className="review-text">{REVIEW_TEXT}</div>
+            </ReviewUserStats>
+          </ReviewUserUpperInfo>
+        </ReviewUserUpper>
+      </ReviewUser>
+      <ReviewContent>
+        <ReviewContentTop>
+          <ReviewRating>{ratingHTML}</ReviewRating>
+          <ReviewDate>{REVIEW_DATE.slice(4, 15)}</ReviewDate>
+        </ReviewContentTop>
+        <ReviewText>{REVIEW_TEXT}</ReviewText>
         <div className="review-photos">{photos}</div>
-        <div className="review-votes">
-          <button type="button" onClick={props.voteClick} className="review-voteButtons useful">
+        <VoteList>
+          <Button onClick={props.voteClick} className="useful">
             <div reviewid={ID} className="review-vote useful">
               {usefulText}
             </div>
-          </button>
-          <button type="button" onClick={props.voteClick} className="review-voteButtons funny">
+          </Button>
+          <Button onClick={props.voteClick} className="funny">
             <div reviewid={ID} className="review-vote funny">
               {funnyText}
             </div>
-          </button>
-          <button type="button" onClick={props.voteClick} className="review-voteButtons cool">
+          </Button>
+          <Button onClick={props.voteClick} className="cool">
             <div reviewid={ID} className="review-vote cool">
               {coolText}
             </div>
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </VoteList>
+      </ReviewContent>
+    </ReviewContainer>
   );
 };
 

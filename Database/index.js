@@ -75,7 +75,7 @@ const getUserData = (data, callback) => { // Gets user data based on USER_ID's f
 };
 
 const getReviewsData = (data, callback) => {
-  db.query(`SELECT * FROM REVIEWS WHERE BUSINESS_ID="${data.business.ID}" ORDER BY STARS DESC;`, (err, reviews) => {
+  db.query(`SELECT * FROM REVIEWS WHERE BUSINESS_ID="${data.business.ID}" ORDER BY STARS DESC LIMIT 20;`, (err, reviews) => {
     const newData = data;
     newData.reviews = reviews;
     getUserData(newData, callback);
@@ -83,7 +83,7 @@ const getReviewsData = (data, callback) => {
 };
 
 module.exports.getReviews = (id, callback) => { // Export to ../server/server.js
-  db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}"`, (err, business) => {
+  db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}";`, (err, business) => {
     const data = {};
     [data.business] = business;
     getReviewsData(data, callback);

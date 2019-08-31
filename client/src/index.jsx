@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-// import Search from './components/Search.jsx';
+import Search from './components/Search.jsx';
 import ReviewList from './components/ReviewList.jsx';
+import styled from 'styled-components'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class App extends React.Component {
       reviews: [],
     };
     this.onVoteClick = this.onVoteClick.bind(this);
+    this.searchQuery = this.searchQuery.bind(this);
   }
 
   componentDidMount() {
@@ -20,13 +22,7 @@ class App extends React.Component {
         return res;
       })
       .then((reviews) => {
-        reviews.forEach((review) => {
-          if (review.photos) {
-            console.log(`Found ${review.photos.length} photos associated with this review`);
-            console.log(`photo ids: ${review.photos}`)
-          }
-        });
-        console.log(reviews);
+        console.log(reviews.length);
         this.setState({ reviews });
       });
   }
@@ -36,6 +32,11 @@ class App extends React.Component {
     info.reviewId = e.target.getAttribute('reviewId');
     [, info.voteType] = e.target.getAttribute('class').split(' ');
     $.post('/api/reviews/vote', { info }, this.updateVotes.bind(this));
+  }
+
+  searchQuery(e) {
+    console.log(`search parameters: `, e);
+
   }
 
   updateVotes(voteInfo) {
@@ -58,6 +59,7 @@ class App extends React.Component {
     const reviews = this.state.reviews;
     return (
       <div>
+        <Search search={this.searchQuery} />
         <ReviewList voteClick={this.onVoteClick} reviews={reviews} />
       </div>
     );

@@ -34,6 +34,10 @@ app.post('/api/reviews/vote', (req, res) => {
   });
 });
 
+app.post(`/api/reviews/search`, (req, res) => {
+  console.log(`${req.method} request received from ${req.url}`);
+});
+
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
