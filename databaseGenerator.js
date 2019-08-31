@@ -150,8 +150,6 @@ for (let i = 1; i <= numMessages; i += 1) {
   messages.push(createMessage(i));
 }
 
-// users = JSON.stringify(users);
-
 const setup = `DROP DATABASE IF EXISTS YELP;
 CREATE DATABASE YELP;
 USE YELP;

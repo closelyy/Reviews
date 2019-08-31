@@ -5,13 +5,6 @@ const Review = (props) => {
   const {
     ID, STARS, REVIEW_DATE, REVIEW_TEXT, USEFUL, FUNNY, COOL, user,
   } = props.review;
-  // const STARS = props.review.STARS;
-  // const REVIEW_DATE = props.review.REVIEW_DATE;
-  // const REVIEW_TEXT = props.review.REVIEW_TEXT;
-  // const USEFUL = props.review.USEFUL;
-  // const FUNNY = props.review.FUNNY;
-  // const COOL = props.review.COOL;
-  // const user = props.review.user;
   let userPhotoIdUrl = './Pictures/default.png';
   if (user.PHOTO_ID !== 'NULL') {
     userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
@@ -22,7 +15,7 @@ const Review = (props) => {
       <img
         alt=""
         className="review-photo"
-        src={['./Pictures/', photoId, '.png'].join('')}
+        src={'./Pictures/{photoId}.png'}
       />
     ));
   }

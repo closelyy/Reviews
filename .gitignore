@@ -1,5 +1,8 @@
 ### node etc ###
 
+# Test coverage
+coverage
+
 # Logs
 logs
 *.log
