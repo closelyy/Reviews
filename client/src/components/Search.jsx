@@ -9,7 +9,9 @@ const SortOptions = styled.div`
 
 const SearchContainer = styled.div`
   display: flex;
+  max-width: 700px;
 `;
+
 class Search extends React.Component {
 
   constructor(props) {
