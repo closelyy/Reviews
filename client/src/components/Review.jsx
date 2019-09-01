@@ -11,7 +11,6 @@ const Review = (props) => {
     userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
   }
   let { photos } = props.review;
-  console.log(photos);
   if (photos) {
     photos = props.review.photos.map((photoId) => (
       <img
@@ -40,6 +39,7 @@ const Review = (props) => {
     display: flex;
     max-width: 600px;
   `;
+  ReviewContainer.displayName = 'ReviewContainer';
 
   const VoteList = styled.div`
     display: flex;
@@ -47,6 +47,7 @@ const Review = (props) => {
     min-width: 400px;
     padding-left: 100px;
   `;
+  VoteList.displayName = 'VoteList';
 
   const ReviewText = styled.div`
     min-width: 400px;
@@ -54,79 +55,94 @@ const Review = (props) => {
     padding-bottom: 10px;
     text-align: left;
   `;
+  ReviewText.displayName = 'ReviewText';
 
   const ReviewDate = styled.div`
     min-width: 300px;
     text-align: right;
     font-size: 14px;
   `;
+  ReviewDate.displayName = 'ReviewDate';
 
   const ReviewContentTop = styled.div`
     display: flex;
     min-width: 400px;
     font-weight: bold;
   `;
+  ReviewContentTop.displayName = 'ReviewContentTop';
 
   const ReviewRating = styled.div`
     min-width: 120px;
     font-size: 14px;
     padding-bottom: 10px;
   `;
+  ReviewRating.displayName = 'ReviewRating';
 
   const ReviewContent = styled.div`
     max-width: 400px;
     padding-top: 10px;
   `;
+  ReviewContent.displayName = 'ReviewContent';
 
   const ReviewUser = styled.div`
     padding-top: 10px;
     min-width: 200px;
   `;
+  ReviewUser.displayName = 'ReviewUser';
 
   const ReviewUserUpperAvatar = styled.img`
     width: 80px;
     height: 100%;
   `;
+  ReviewUserUpperAvatar.displayName = 'ReviewUserUpperAvatar';
 
   const ReviewUserUpper = styled.div`
     display: flex;
   `;
+  ReviewUserUpper.displayName = 'ReviewUserUpper';
 
   const ReviewUserUpperInfo = styled.div`
     padding: 8px;
   `;
+  ReviewUserUpperInfo.displayName = 'ReviewUserUpperInfo';
 
   const ReviewUsername = styled.div`
     color: blue;
     font-size: 14px;
     font-weight: bold;
   `;
+  ReviewUsername.displayName = 'ReviewUsername';
 
   const ReviewUserStats = styled.div`
     display: flex;
     font-size: 12px;
   `;
+  ReviewUserStats.displayName = 'ReviewUserStats';
 
   const ReviewUserNumber = styled.div`
     padding-right: 4px;
     font-weight: bold;
   `;
+  ReviewUserNumber.displayName = 'ReviewUserNumber';
 
   const ReviewUserReviews = styled.div`
     padding-right: 4px;
     font-weight: bold;
   `;
+  ReviewUserReviews.displayName = 'ReviewUserReviews';
 
   const ReviewUserPhotos = styled.div`
     padding-right: 4px;
     font-weight: bold;
   `;
+  ReviewUserPhotos.displayName = 'ReviewUserPhotos';
 
   const ReviewUserLocation = styled.div`
     color: black;
     font-size: 12px;
     font-weight: bold;
   `;
+  ReviewUserLocation.displayName = 'ReviewUserLocation';
 
   const Button = styled.button`
     color: black;
@@ -136,6 +152,7 @@ const Review = (props) => {
     padding: 4px;
     border: solid 2px;
   `;
+  Button.displayName = 'Button';
 
   const usefulText = `Useful: ${USEFUL}`;
   const funnyText = `Funny: ${FUNNY}`;
