@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-// import Search from './components/Search.jsx';
+import Search from './components/Search.jsx';
 import ReviewList from './components/ReviewList.jsx';
 
 class App extends React.Component {
@@ -11,16 +11,17 @@ class App extends React.Component {
       reviews: [],
     };
     this.onVoteClick = this.onVoteClick.bind(this);
+    this.searchQuery = this.searchQuery.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/reviews/37')
+    fetch('/api/reviews/39')
       .then((response) => {
         const res = response.json();
         return res;
       })
       .then((reviews) => {
-        console.log(reviews);
+        console.log(reviews.length);
         this.setState({ reviews });
       });
   }
@@ -30,6 +31,11 @@ class App extends React.Component {
     info.reviewId = e.target.getAttribute('reviewId');
     [, info.voteType] = e.target.getAttribute('class').split(' ');
     $.post('/api/reviews/vote', { info }, this.updateVotes.bind(this));
+  }
+
+  searchQuery(e) {
+    console.log(`search parameters: `, e);
+
   }
 
   updateVotes(voteInfo) {
@@ -52,6 +58,7 @@ class App extends React.Component {
     const reviews = this.state.reviews;
     return (
       <div>
+        <Search search={this.searchQuery} />
         <ReviewList voteClick={this.onVoteClick} reviews={reviews} />
       </div>
     );

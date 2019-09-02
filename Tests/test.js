@@ -55,19 +55,19 @@ describe('Review: Testing DOM renders', () => {
   // ------------------ STARS TEST -----------------------------
   it('Star rating should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-rating').text()).toEqual('Rating: 4 out of 5   ');
+    expect(wrapper.find('ReviewRating').text()).toEqual('⭑⭑⭑⭑⭑');
   });
 
   // ------------------ REVIEW_DATE TEST -----------------------------
   it('Review date should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-date').text()).toEqual('Sep 29 2016');
+    expect(wrapper.find('ReviewDate').text()).toEqual('Sep 29 2016');
   });
 
   // ------------------ REVIEW_TEXT TEST -----------------------------
   it('Review text should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-text').text()).toEqual('Hi I am a review. I sorta liked this place, food was good. I suggest you go here.');
+    expect(wrapper.find('ReviewText').text()).toEqual('Hi I am a review. I sorta liked this place, food was good. I suggest you go here.');
   });
 
   // ------------------ USEFUL TEST -----------------------------
@@ -88,42 +88,36 @@ describe('Review: Testing DOM renders', () => {
     expect(wrapper.find('.review-vote').find('.cool').text()).toEqual('Cool: 34');
   });
 
-  // ------------------ PHOTOS TEST -----------------------------
-  it('Cool rating should be rendered properly', () => {
-    const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-vote').find('.cool').text()).toEqual('Cool: 34');
-  });
-
   // ------------------ USER TESTS -----------------------------
 
   // ------------------- NAME ----------------------------------
   it('Cool rating should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-username').text()).toEqual('TODD');
+    expect(wrapper.find('ReviewUsername').text()).toEqual('TODD');
   });
 
   // ------------------- FRIENDS ----------------------------------
   it('User\'s number of friends should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-userNumber').text()).toEqual('12');
+    expect(wrapper.find('ReviewUserNumber').text()).toEqual('12');
   });
 
   // ------------------- REVIEWS ----------------------------------
   it('User\'s number of reviews should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-userReviews').text()).toEqual('99');
+    expect(wrapper.find('ReviewUserReviews').text()).toEqual('99');
   });
 
   // ------------------- PROFILE PHOTO ----------------------------------
   it('User profile photo should have the correct url', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-user-upper-avatar').prop('src')).toEqual('./Pictures/23.png');
+    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('./Pictures/23.png');
   });
 
   // ------------------- PROFILE PHOTO ----------------------------------
   it('User profile photo should default when no profile photo is provided.', () => {
     const wrapper = shallow(<Review review={reviewNoProfilePic} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-user-upper-avatar').prop('src')).toEqual('./Pictures/default.png');
+    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('./Pictures/default.png');
   });
 
   // ------------------- PHOTOS ----------------------------------
@@ -140,7 +134,7 @@ describe('Review: Testing DOM renders', () => {
   // ------------------- LOCATION ----------------------------------
   it('Location should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('.review-userLocation').text()).toEqual('Sacramento, CA');
+    expect(wrapper.find('ReviewUserLocation').text()).toEqual('Sacramento, CA');
   });
 });
 
@@ -179,7 +173,7 @@ describe('Review: Test buttons', () => {
   it('Should increment the cool value of the review when vote is cast.', () => {
     const wrapper1 = shallow(<Review review={review} voteClick={onUsefulVoteClick} />);
     expect(wrapper1.find('div.useful').text()).toEqual('Useful: 1');
-    wrapper1.find('button.useful').simulate('click', { preventDefault() {} });
+    wrapper1.find('Button.useful').simulate('click', { preventDefault() {} });
     const wrapper2 = shallow(<Review review={review} voteClick={onUsefulVoteClick} />);
     expect(wrapper2.find('div.useful').text()).toEqual('Useful: 2');
   });
@@ -188,7 +182,7 @@ describe('Review: Test buttons', () => {
   it('Should increment the funny value of the review when vote is cast.', () => {
     const wrapper1 = shallow(<Review review={review} voteClick={onFunnyVoteClick} />);
     expect(wrapper1.find('div.funny').text()).toEqual('Funny: 34');
-    wrapper1.find('button.funny').simulate('click', { preventDefault() {} });
+    wrapper1.find('Button.funny').simulate('click', { preventDefault() {} });
     const wrapper2 = shallow(<Review review={review} voteClick={onFunnyVoteClick} />);
     expect(wrapper2.find('div.funny').text()).toEqual('Funny: 35');
   });
@@ -197,7 +191,7 @@ describe('Review: Test buttons', () => {
   it('Should increment the cool value of the review when vote is cast.', () => {
     const wrapper1 = shallow(<Review review={review} voteClick={onCoolVoteClick} />);
     expect(wrapper1.find('div.cool').text()).toEqual('Cool: 34');
-    wrapper1.find('button.cool').simulate('click', { preventDefault() {} });
+    wrapper1.find('Button.cool').simulate('click', { preventDefault() {} });
     const wrapper2 = shallow(<Review review={review} voteClick={onCoolVoteClick} />);
     expect(wrapper2.find('div.cool').text()).toEqual('Cool: 35');
   });
