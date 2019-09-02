@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import ReviewList from './components/ReviewList.jsx';
-import styled from 'styled-components'
 
 class App extends React.Component {
   constructor(props) {

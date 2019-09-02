@@ -1,6 +1,5 @@
 import React from 'react';
 import Review from './Review.jsx';
-import styled from 'styled-components'
 
 const ReviewList = (props) => {
   let reviews = props.reviews;

@@ -73,7 +73,6 @@ describe('Review: Testing DOM renders', () => {
   // ------------------ USEFUL TEST -----------------------------
   it('Useful rating should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    console.log(JSON.stringify(wrapper.find('ReviewVote')));
     expect(wrapper.find('.review-vote').find('.useful').text()).toEqual('Useful: 1');
   });
 
@@ -88,12 +87,6 @@ describe('Review: Testing DOM renders', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
     expect(wrapper.find('.review-vote').find('.cool').text()).toEqual('Cool: 34');
   });
-
-  // ------------------ PHOTOS TEST -----------------------------
-  // it('Cool rating should be rendered properly', () => {
-  //   const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-  //   expect(wrapper.find('ReviewVote').find('.cool').text()).toEqual('Cool: 34');
-  // });
 
   // ------------------ USER TESTS -----------------------------
 
