@@ -253,17 +253,17 @@ class Review extends React.Component {
           <ReviewText>{REVIEW_TEXT}</ReviewText>
           <div className="review-photos">{photos}</div>
           <VoteList>
-            <Button onClick={voteClick} className="useful">
+            <Button onClick={this.props.voteClick} className="useful">
               <div reviewid={ID} className="review-vote useful">
                 {usefulText}
               </div>
             </Button>
-            <Button onClick={voteClick} className="funny">
+            <Button onClick={this.props.voteClick} className="funny">
               <div reviewid={ID} className="review-vote funny">
                 {funnyText}
               </div>
             </Button>
-            <Button onClick={voteClick} className="cool">
+            <Button onClick={this.props.voteClick} className="cool">
               <div reviewid={ID} className="review-vote cool">
                 {coolText}
               </div>
@@ -273,7 +273,7 @@ class Review extends React.Component {
       </ReviewContainer>
     );
   }
-}
+};
 
 Review.propTypes = {
   review: {

@@ -136,6 +136,14 @@ describe('Review: Testing DOM renders', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
     expect(wrapper.find('ReviewUserLocation').text()).toEqual('Sacramento, CA');
   });
+
+  // ------------------ MOUSEOVER TEST -------------------------
+  it('Should change state of \'mouseOver\' to true when mouse is over the review.', () => {
+    const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
+    expect(wrapper.state('mouseOver')).toBe(false);
+    wrapper.find('ReviewContainer').simulate('mouseover', { preventDefault() {} });
+    expect(wrapper.state('mouseOver')).toBe(true);
+  });
 });
 
 describe('Review: Test buttons', () => {
