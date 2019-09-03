@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const OrangeStar = styled.span`
   color: orange;
@@ -65,6 +65,19 @@ const ReviewUser = styled.div`
 `;
 ReviewUser.displayName = 'ReviewUser';
 
+const ReviewUserLower = styled.div`
+  min-width: 100px;
+  min-height: 100px;
+  border: 1px solid lightgray;
+`;
+ReviewUserLower.displayName = 'ReviewUserLower';
+
+const ReviewUserLowerElement = styled.div`
+  padding-top: 3px;
+  border-top: solid 1px lightgray;
+`;
+ReviewUserLowerElement.displayName = 'ReviewUserLowerElement';
+
 const ReviewUserUpperAvatar = styled.img`
   width: 80px;
   height: 100%;
@@ -128,97 +141,138 @@ const Button = styled.button`
   border: solid 2px;
 `;
 Button.displayName = 'Button';
-  
-const Review = (props) => {
-  const {
-    ID, STARS, REVIEW_DATE, REVIEW_TEXT, USEFUL, FUNNY, COOL, user,
-  } = props.review;
-  let userPhotoIdUrl = './Pictures/default.png';
-  if (user.PHOTO_ID !== 'NULL') {
-    userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
+
+class Review extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mouseOver: false,
+    };
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
   }
-  let { photos } = props.review;
-  if (photos) {
-    photos = props.review.photos.map((photoId) => (
-      <img
-        alt=""
-        className="review-photo"
-        src={['./Pictures/', photoId, '.png'].join('')}
-      />
-    ));
+
+  onMouseOver() {
+    this.setState({
+      mouseOver: true,
+    });
   }
-  if (photos === []) {
-    photos = '';
+
+  onMouseLeave() {
+    this.setState({
+      mouseOver: false,
+    });
   }
-  const ratingHTML = [1,2,3,4,5].map((rating) => {
-    if ( rating <= Number(STARS)) {
-      return (
-        <OrangeStar>⭑</OrangeStar>
-      );
-    } else { 
+
+  render() {
+    const {
+      ID, STARS, REVIEW_DATE, REVIEW_TEXT, USEFUL, FUNNY, COOL, user,
+    } = this.props.review;
+    let userPhotoIdUrl = './Pictures/default.png';
+    if (user.PHOTO_ID !== 'NULL') {
+      userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
+    }
+    let { photos } = this.props.review;
+    if (photos) {
+      photos = this.props.review.photos.map((photoId) => (
+        <img
+          alt=""
+          className="review-photo"
+          src={['./Pictures/', photoId, '.png'].join('')}
+        />
+      ));
+    }
+    if (photos === []) {
+      photos = '';
+    }
+    const ratingHTML = [1, 2, 3, 4, 5].map((rating) => {
+      if (rating <= Number(STARS)) {
+        return (
+          <OrangeStar>⭑</OrangeStar>
+        );
+      }
       return (
         <Star>⭑</Star>
       );
+    });
+
+    let reviewUserLowerSection = '';
+    const { mouseOver, voteClick } = this.state;
+    if (mouseOver === true) {
+      reviewUserLowerSection = (
+        <ReviewUserLower>
+          <ReviewUserLowerElement>Share Review</ReviewUserLowerElement>
+          <ReviewUserLowerElement>Embed Review</ReviewUserLowerElement>
+          <ReviewUserLowerElement>Compliment</ReviewUserLowerElement>
+          <ReviewUserLowerElement>Send Message</ReviewUserLowerElement>
+          <ReviewUserLowerElement>Follow {user.NAME}</ReviewUserLowerElement>
+        </ReviewUserLower>
+      );
     }
-  });
 
-  const usefulText = `Useful: ${USEFUL}`;
-  const funnyText = `Funny: ${FUNNY}`;
-  const coolText = `Cool: ${COOL}`;
+    const usefulText = `Useful: ${USEFUL}`;
+    const funnyText = `Funny: ${FUNNY}`;
+    const coolText = `Cool: ${COOL}`;
 
-  return (
-    <ReviewContainer id={ID}>
-      <ReviewUser>
-        <ReviewUserUpper>
-          <ReviewUserUpperAvatar
-            alt=""
-            src={userPhotoIdUrl}
-          />
-          <ReviewUserUpperInfo>
-            <ReviewUsername>{user.NAME}</ReviewUsername>
-            <ReviewUserLocation>{user.TOWNLOC}</ReviewUserLocation>
-            <ReviewUserStats>
-              <ReviewUserNumber>{user.FRIENDS}</ReviewUserNumber>
-               friends
-            </ReviewUserStats>
-            <ReviewUserStats>
-              <ReviewUserReviews>{user.REVIEWS}</ReviewUserReviews>
-               reviews
-            </ReviewUserStats>
-            <ReviewUserStats>
-              <ReviewUserPhotos>{user.PHOTOS}</ReviewUserPhotos>
-               photos
-            </ReviewUserStats>
-          </ReviewUserUpperInfo>
-        </ReviewUserUpper>
-      </ReviewUser>
-      <ReviewContent>
-        <ReviewContentTop>
-          <ReviewRating>{ratingHTML}</ReviewRating>
-          <ReviewDate>{REVIEW_DATE.slice(4, 15)}</ReviewDate>
-        </ReviewContentTop>
-        <ReviewText>{REVIEW_TEXT}</ReviewText>
-        <div className="review-photos">{photos}</div>
-        <VoteList>
-          <Button onClick={props.voteClick} className="useful">
-            <div reviewid={ID} className="review-vote useful">
-              {usefulText}
-            </div>
-          </Button>
-          <Button onClick={props.voteClick} className="funny">
-            <div reviewid={ID} className="review-vote funny">
-              {funnyText}
-            </div>
-          </Button>
-          <Button onClick={props.voteClick} className="cool">
-            <div reviewid={ID} className="review-vote cool">
-              {coolText}
-            </div>
-          </Button>
-        </VoteList>
-      </ReviewContent>
-    </ReviewContainer>
-  );
+    return (
+      <ReviewContainer
+        id={ID}
+        onMouseLeave={this.onMouseLeave}
+        onMouseOver={this.onMouseOver}
+      >
+        <ReviewUser>
+          <ReviewUserUpper>
+            <ReviewUserUpperAvatar
+              alt=""
+              src={userPhotoIdUrl}
+            />
+            <ReviewUserUpperInfo>
+              <ReviewUsername>{user.NAME}</ReviewUsername>
+              <ReviewUserLocation>{user.TOWNLOC}</ReviewUserLocation>
+              <ReviewUserStats>
+                <ReviewUserNumber>{user.FRIENDS}</ReviewUserNumber>
+                 friends
+              </ReviewUserStats>
+              <ReviewUserStats>
+                <ReviewUserReviews>{user.REVIEWS}</ReviewUserReviews>
+                 reviews
+              </ReviewUserStats>
+              <ReviewUserStats>
+                <ReviewUserPhotos>{user.PHOTOS}</ReviewUserPhotos>
+                 photos
+              </ReviewUserStats>
+            </ReviewUserUpperInfo>
+          </ReviewUserUpper>
+          {reviewUserLowerSection}
+        </ReviewUser>
+        <ReviewContent>
+          <ReviewContentTop>
+            <ReviewRating>{ratingHTML}</ReviewRating>
+            <ReviewDate>{REVIEW_DATE.slice(4, 15)}</ReviewDate>
+          </ReviewContentTop>
+          <ReviewText>{REVIEW_TEXT}</ReviewText>
+          <div className="review-photos">{photos}</div>
+          <VoteList>
+            <Button onClick={this.props.voteClick} className="useful">
+              <div reviewid={ID} className="review-vote useful">
+                {usefulText}
+              </div>
+            </Button>
+            <Button onClick={this.props.voteClick} className="funny">
+              <div reviewid={ID} className="review-vote funny">
+                {funnyText}
+              </div>
+            </Button>
+            <Button onClick={this.props.voteClick} className="cool">
+              <div reviewid={ID} className="review-vote cool">
+                {coolText}
+              </div>
+            </Button>
+          </VoteList>
+        </ReviewContent>
+      </ReviewContainer>
+    );
+  }
 };
 
 Review.propTypes = {

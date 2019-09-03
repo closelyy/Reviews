@@ -34,8 +34,7 @@ class App extends React.Component {
   }
 
   searchQuery(e) {
-    console.log(`search parameters: `, e);
-
+    console.log('search parameters: ', e);
   }
 
   updateVotes(voteInfo) {
@@ -55,7 +54,7 @@ class App extends React.Component {
   }
 
   render() {
-    const reviews = this.state.reviews;
+    const { reviews } = this.state;
     return (
       <div>
         <Search search={this.searchQuery} />
