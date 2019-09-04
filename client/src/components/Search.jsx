@@ -1,6 +1,7 @@
 import React from 'react';
+const styled;
 if (window) {
-  const { styled } = window;
+  styled = window.styled;
 } else {
   import styled from 'styled-components';
 }

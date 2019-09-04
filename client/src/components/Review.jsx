@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+const styled;
 if (window) {
-  const { styled } = window;
+  styled = window.styled;
 } else {
   import styled from 'styled-components';
 }
