@@ -15,13 +15,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/reviews/39')
+    fetch('/api/reviews/42')
       .then((response) => {
         const res = response.json();
         return res;
       })
       .then((reviews) => {
-        console.log(reviews.length);
         this.setState({ reviews });
       });
   }
@@ -30,6 +29,7 @@ class App extends React.Component {
     const info = {};
     info.reviewId = e.target.getAttribute('reviewId');
     [, info.voteType] = e.target.getAttribute('class').split(' ');
+    console.log(`getting a request to vote for ${info}`);
     $.post('/api/reviews/vote', { info }, this.updateVotes.bind(this));
   }
 
@@ -38,12 +38,14 @@ class App extends React.Component {
   }
 
   updateVotes(voteInfo) {
-    if (voteInfo.msg === 'Success') {
+
+    const newVoteInfo = JSON.parse(voteInfo);
+    if (newVoteInfo.msg === 'Success') {
       this.setState((state) => {
         const reviews = state.reviews.map((review) => {
-          if (review.ID === voteInfo.reviewId) {
+          if (review.ID === newVoteInfo.reviewId) {
             const updatedReview = review;
-            updatedReview[voteInfo.voteType.toUpperCase()] += 1;
+            updatedReview[newVoteInfo.voteType.toUpperCase()] += 1;
             return updatedReview;
           }
           return review;
@@ -66,4 +68,4 @@ class App extends React.Component {
 
 export default App;
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('reviews'));

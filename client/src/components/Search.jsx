@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+const { styled } = window;
 
 const SortOptions = styled.div`
   display: flex;
