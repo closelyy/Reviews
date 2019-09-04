@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const { styled } = window;
+if (window) {
+  const { styled } = window;
+} else {
+  import styled from 'styled-components';
+}
 
 const OrangeStar = styled.span`
   color: orange;

@@ -1,5 +1,10 @@
 import React from 'react';
-const { styled } = window;
+if (window) {
+  const { styled } = window;
+} else {
+  import styled from 'styled-components';
+}
+
 
 const SortOptions = styled.div`
   display: flex;
