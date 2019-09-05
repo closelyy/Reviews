@@ -1,8 +1,8 @@
 import React from 'react';
 import styledComponents from 'styled-components';
-const styleWindow = window;
+const styleWindow = window ? window : undefined;
 
-if(window) {
+if(styleWindow) {
   styled = styleWindow;
 } else {
   styled = styledComponents;

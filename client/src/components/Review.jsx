@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styledComponents from 'styled-components';
-const styleWindow = window;
+const styleWindow = window ? window : undefined;
 
-if(window) {
+if(styleWindow) {
   styled = styleWindow;
 } else {
   styled = styledComponents;
