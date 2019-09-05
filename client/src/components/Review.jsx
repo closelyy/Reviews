@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styledComponents from 'styled-components';
-const styleWindow = window ? window : undefined;
 
-if(styleWindow) {
-  styled = styleWindow;
+const styledWindow = undefined;
+if (window) {
+  styledWindow = window;
+}
+
+if(styledWindow) {
+  styled = styledWindow.styled;
 } else {
   styled = styledComponents;
 }
