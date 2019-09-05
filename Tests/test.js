@@ -55,7 +55,7 @@ describe('Review: Testing DOM renders', () => {
   // ------------------ STARS TEST -----------------------------
   it('Star rating should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('ReviewRating').text()).toEqual('⭑⭑⭑⭑⭑');
+    expect(wrapper.find('ReviewRating').text).toEqual('⭑⭑⭑⭑⭑');
   });
 
   // ------------------ REVIEW_DATE TEST -----------------------------

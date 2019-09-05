@@ -35,7 +35,7 @@ const getReviewsPhotoData = (data, callback) => {
           if (!newReview.photos) {
             newReview.photos = [];
           }
-          newReview.photos.push(photos[i].ID);
+          newReview.photos.push(photos[i].URL);
         }
       }
       return newReview;
