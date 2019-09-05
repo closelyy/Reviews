@@ -1,9 +1,11 @@
 import React from 'react';
-const styled;
-if (window) {
-  styled = window.styled;
+import styledComponents from 'styled-components';
+const styleWindow = window;
+
+if(window) {
+  styled = styleWindow;
 } else {
-  import styled from 'styled-components';
+  styled = styledComponents;
 }
 
 
