@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
+
+let styledWindow = undefined;
+if (typeof window !== 'undefined') {
+  styledWindow = window;
+}
+
+let styled = styledComponents;
+
+if(styledWindow) {
+  styled = styledWindow.styled;
+}
 
 const OrangeStar = styled.span`
   color: orange;
@@ -139,6 +150,7 @@ const Button = styled.button`
   display: flex;
   padding: 4px;
   border: solid 2px;
+  background-color: lightgray;
 `;
 Button.displayName = 'Button';
 

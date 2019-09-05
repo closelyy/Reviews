@@ -1,5 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
+
+let styledWindow = undefined;
+if (typeof window !== 'undefined') {
+  styledWindow = window;
+}
+
+let styled = styledComponents;
+
+if(styledWindow) {
+  styled = styledWindow.styled;
+}
+
 
 const SortOptions = styled.div`
   display: flex;
