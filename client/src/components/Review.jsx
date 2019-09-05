@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 
 const OrangeStar = styled.span`
   color: orange;
@@ -169,7 +169,7 @@ class Review extends React.Component {
     const {
       ID, STARS, REVIEW_DATE, REVIEW_TEXT, USEFUL, FUNNY, COOL, user,
     } = this.props.review;
-    let userPhotoIdUrl = '`https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/default.png';
+    let userPhotoIdUrl = 'https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/default.png';
     if (user.PHOTOURL !== 'NULL') {
       userPhotoIdUrl = user.PHOTOURL;
     }

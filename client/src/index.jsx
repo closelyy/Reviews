@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/reviews/42')
+    fetch('/api/reviews/40')
       .then((response) => {
         const res = response.json();
         return res;
