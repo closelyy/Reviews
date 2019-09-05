@@ -91,7 +91,7 @@ describe('Review: Testing DOM renders', () => {
   // ------------------ USER TESTS -----------------------------
 
   // ------------------- NAME ----------------------------------
-  it('Cool rating should be rendered properly', () => {
+  it('Username should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
     expect(wrapper.find('ReviewUsername').text()).toEqual('TODD');
   });

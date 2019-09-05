@@ -1,16 +1,5 @@
 import React from 'react';
-import styledComponents from 'styled-components';
-
-let styledWindow = undefined;
-if (typeof window !== 'undefined') {
-  styledWindow = window;
-}
-
-let styled = styledComponents;
-
-if(styledWindow) {
-  styled = styledWindow.styled;
-}
+import styled from '@emotion/styled';
 
 
 const SortOptions = styled.div`
@@ -18,11 +7,13 @@ const SortOptions = styled.div`
   text-align:right;
   margin:0px auto 0px auto;
 `;
+SortOptions.displayName = 'SortOptions';
 
 const SearchContainer = styled.div`
   display: flex;
   max-width: 700px;
 `;
+SearchContainer.displayName = 'SearchContainer';
 
 class Search extends React.Component {
 

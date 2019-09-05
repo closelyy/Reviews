@@ -13,6 +13,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
     "babel-preset-env": "^1.7.0",
     "body-parser": "^1.19.0",
     "enzyme-adapter-react-16": "^1.14.0",
