@@ -1,17 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styledComponents from 'styled-components';
-
-let styledWindow = undefined;
-if (typeof window !== 'undefined') {
-  styledWindow = window;
-}
-
-let styled = styledComponents;
-
-if(styledWindow) {
-  styled = styledWindow.styled;
-}
+import styled from 'styled-components';
 
 const OrangeStar = styled.span`
   color: orange;
@@ -180,17 +169,17 @@ class Review extends React.Component {
     const {
       ID, STARS, REVIEW_DATE, REVIEW_TEXT, USEFUL, FUNNY, COOL, user,
     } = this.props.review;
-    let userPhotoIdUrl = './Pictures/default.png';
-    if (user.PHOTO_ID !== 'NULL') {
-      userPhotoIdUrl = ['./Pictures/', user.PHOTO_ID, '.png'].join('');
+    let userPhotoIdUrl = 'https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/default.png';
+    if (user.PHOTOURL !== 'NULL') {
+      userPhotoIdUrl = user.PHOTOURL;
     }
     let { photos } = this.props.review;
     if (photos) {
-      photos = this.props.review.photos.map((photoId) => (
+      photos = this.props.review.photos.map((photoUrl) => (
         <img
           alt=""
           className="review-photo"
-          src={['./Pictures/', photoId, '.png'].join('')}
+          src={photoUrl}
         />
       ));
     }

@@ -21,19 +21,19 @@ const createUser = (index) => {
   user.friends = Math.floor(Math.random() * 1000);
   user.reviews = Math.floor(Math.random() * 1000);
   user.photos = Math.floor(Math.random() * 100);
-  let photoId = Math.floor(Math.random() * numPhotos + 1);
-  while (photoToUserIds.includes(photoId)) {
-    photoId = Math.floor(Math.random() * numPhotos + 1);
+  let photoUrl = `https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/${Math.floor(Math.random() * numPhotos + 1)}.png`;
+  while (photoToUserIds.includes(photoUrl)) {
+    photoUrl = `https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/${Math.floor(Math.random() * numPhotos + 1)}.png`;
   }
-  photoToUserIds.push([photoId, user.id]);
-  user.photo_id = photoId.toString();
+  photoToUserIds.push([photoUrl, user.id]);
+  user.photoUrl = photoUrl;
   return user;
 };
 const convertUsersToSql = (users) => {
   let sql = [];
   for (let i = 0; i < users.length; i += 1) {
-    sql[i] = `INSERT INTO users (ID, NAME, TOWNLOC, FRIENDS, REVIEWS, PHOTOS, PHOTO_ID)
-    VALUES ("${users[i].id}", "${users[i].name}", "${users[i].townLoc}", ${users[i].friends}, ${users[i].reviews}, ${users[i].photos}, "${users[i].photo_id}");`;
+    sql[i] = `INSERT INTO users (ID, NAME, TOWNLOC, FRIENDS, REVIEWS, PHOTOS, PHOTOURL)
+    VALUES ("${users[i].id}", "${users[i].name}", "${users[i].townLoc}", ${users[i].friends}, ${users[i].reviews}, ${users[i].photos}, "${users[i].photoUrl}");`;
   }
   sql = sql.join('\n');
   return sql;
@@ -111,13 +111,14 @@ const createPhoto = (index) => {
     photo.business_id = businesses[Math.floor(Math.random() * numBusinesses)].id;
     photo.user_id = users[Math.floor(Math.random() * numUsers)].id;
   }
+  photo.address = `https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/${index}.png`
   return photo;
 };
 const convertPhotosToSql = (photos) => {
   let sql = [];
   for (let i = 0; i < photos.length; i += 1) {
-    sql[i] = `INSERT INTO photos (ID, BUSINESS_ID, USER_ID) 
-    VALUES ("${photos[i].id}", ${photos[i].business_id === "NULL" ? null : ['"', photos[i].business_id, '"'].join('') }, "${photos[i].user_id}");`;
+    sql[i] = `INSERT INTO photos (ID, BUSINESS_ID, USER_ID, URL) 
+    VALUES ("${photos[i].id}", ${photos[i].business_id === "NULL" ? null : ['"', photos[i].business_id, '"'].join('') }, "${photos[i].user_id}", "${photos[i].address}");`;
   }
   sql = sql.join('\n');
   return sql;
@@ -170,8 +171,8 @@ CREATE TABLE users (
   -- NUMBER OF REVIEWS CREATED
   PHOTOS INT,
   -- NUMBER OF PHOTOS POSTED
-  PHOTO_ID VARCHAR(100),
-  -- UNIQUE IDENTIFIER OF USER'S AVATAR IMAGE
+  PHOTOURL VARCHAR(300),
+  -- URL OF USER'S AVATAR IMAGE ON AMAZON S3
   PRIMARY KEY (ID)
 );
 CREATE TABLE businesses (
@@ -216,6 +217,8 @@ CREATE TABLE photos (
   -- UNIQUE IDENTIFIER OF ASSOCIATED REVIEW
   USER_ID VARCHAR(255),
   -- UNIQUE IDENTIFIER OF ASSOCIATED USER
+  URL VARCHAR(300),
+  -- URL FOR PHOTO ON AMAZON S3
   PRIMARY KEY (ID),
   FOREIGN KEY (BUSINESS_ID) 
     REFERENCES businesses(ID),

@@ -21,7 +21,7 @@ describe('Review: Testing DOM renders', () => {
       REVIEWS: 99,
       PHOTOS: 2,
       TOWNLOC: 'Sacramento, CA',
-      PHOTO_ID: '23'
+      PHOTOURL: 'https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/23.png'
     }
   };
 
@@ -39,7 +39,7 @@ describe('Review: Testing DOM renders', () => {
       REVIEWS: 99,
       PHOTOS: 2,
       TOWNLOC: 'Sacramento, CA',
-      PHOTO_ID: 'NULL'
+      PHOTOURL: 'NULL'
     }
   };
 
@@ -91,7 +91,7 @@ describe('Review: Testing DOM renders', () => {
   // ------------------ USER TESTS -----------------------------
 
   // ------------------- NAME ----------------------------------
-  it('Cool rating should be rendered properly', () => {
+  it('Username should be rendered properly', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
     expect(wrapper.find('ReviewUsername').text()).toEqual('TODD');
   });
@@ -111,13 +111,13 @@ describe('Review: Testing DOM renders', () => {
   // ------------------- PROFILE PHOTO ----------------------------------
   it('User profile photo should have the correct url', () => {
     const wrapper = shallow(<Review review={review} voteClick={onVoteClick} />);
-    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('./Pictures/23.png');
+    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/23.png');
   });
 
   // ------------------- PROFILE PHOTO ----------------------------------
   it('User profile photo should default when no profile photo is provided.', () => {
     const wrapper = shallow(<Review review={reviewNoProfilePic} voteClick={onVoteClick} />);
-    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('./Pictures/default.png');
+    expect(wrapper.find('ReviewUserUpperAvatar').prop('src')).toEqual('https://closelyy-reviews.s3-us-west-1.amazonaws.com/ReviewsPictures/default.png');
   });
 
   // ------------------- PHOTOS ----------------------------------
@@ -173,7 +173,7 @@ describe('Review: Test buttons', () => {
       REVIEWS: 99,
       PHOTOS: 2,
       TOWNLOC: 'Sacramento, CA',
-      PHOTO_ID: '23'
+      PHOTOURL: '23'
     }
   };
 
@@ -221,7 +221,7 @@ describe('ReviewList: Testing DOM renders', () => {
       REVIEWS: 99,
       PHOTOS: 2,
       TOWNLOC: 'Sacramento, CA',
-      PHOTO_ID: '23'
+      PHOTOURL: '23'
     }
   },
   {
@@ -238,7 +238,7 @@ describe('ReviewList: Testing DOM renders', () => {
       REVIEWS: 1,
       PHOTOS: 44,
       TOWNLOC: 'Atlanta, GA',
-      PHOTO_ID: '44'
+      PHOTOURL: '44'
     }
   }];
 
