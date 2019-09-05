@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styledComponents from 'styled-components';
 
-const styledWindow = undefined;
-if (window) {
+let styledWindow = undefined;
+if (typeof window !== 'undefined') {
   styledWindow = window;
 }
 
+let styled = styledComponents;
+
 if(styledWindow) {
   styled = styledWindow.styled;
-} else {
-  styled = styledComponents;
 }
 
 const OrangeStar = styled.span`
