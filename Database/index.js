@@ -1,11 +1,13 @@
 const mysql = require('mysql');
 
-// Create a database connection and export it from this file.
-// You will need to connect with the user "root", no password,
-// and to the database "yelp".
+// // Create a database connection and export it from this file.
+// // You will need to connect with the user "root", no password,
+// // and to the database "yelp".
 
 const db = mysql.createConnection({
+  host: 'database',
   user: 'root',
+  password: 'mysql',
   database: 'yelp',
 });
 module.exports = db;
@@ -27,7 +29,7 @@ module.exports.updateVote = (info, callback) => { // Export to ../server/server.
 };
 
 const getReviewsPhotoData = (data, callback) => {
-  db.query(`SELECT * FROM PHOTOS WHERE BUSINESS_ID="${data.business.ID}"`, (err, photos) => {
+  db.query(`SELECT * FROM photos WHERE BUSINESS_ID="${data.business.ID}"`, (err, photos) => {
     const newData = data.reviews.map((review) => {
       const newReview = review;
       for (let i = 0; i < photos.length; i += 1) {
@@ -51,7 +53,7 @@ const getUserData = (data, callback) => { // Gets user data based on USER_ID's f
   });
   const newData = data;
   newData.userIds = userIds;
-  let userQuery = 'SELECT * FROM USERS WHERE ';
+  let userQuery = 'SELECT * FROM users WHERE ';
   for (let i = 0; i < userIds.length; i += 1) {
     userQuery += `ID="${userIds[i]}"`;
     if (i === userIds.length - 1) {
@@ -75,7 +77,7 @@ const getUserData = (data, callback) => { // Gets user data based on USER_ID's f
 };
 
 const getReviewsData = (data, callback) => {
-  db.query(`SELECT * FROM REVIEWS WHERE BUSINESS_ID="${data.business.ID}" ORDER BY STARS DESC LIMIT 20;`, (err, reviews) => {
+  db.query(`SELECT * FROM reviews WHERE BUSINESS_ID="${data.business.ID}" ORDER BY STARS DESC LIMIT 20;`, (err, reviews) => {
     const newData = data;
     newData.reviews = reviews;
     getUserData(newData, callback);
@@ -83,9 +85,15 @@ const getReviewsData = (data, callback) => {
 };
 
 module.exports.getReviews = (id, callback) => { // Export to ../server/server.js
-  db.query(`SELECT * FROM BUSINESSES WHERE ID="${id}";`, (err, business) => {
-    const data = {};
-    [data.business] = business;
-    getReviewsData(data, callback);
+  db.query(`SELECT * FROM businesses WHERE ID="${id}";`, (err, business) => {
+    if (err) {
+      console.log(err)
+      callback([]);
+    } else {
+      const data = {};
+      console.log(business);
+      [data.business] = business;
+      getReviewsData(data, callback);
+    }
   });
 };

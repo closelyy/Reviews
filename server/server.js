@@ -5,8 +5,8 @@ const db = require('../Database');
 
 const app = express();
 
-const port = process.env.PORT || 3001;
-
+// const port = process.env.PORT || 3001;
+const port = 3001;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/dist')));

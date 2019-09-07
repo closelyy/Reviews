@@ -38,8 +38,10 @@ class App extends React.Component {
   }
 
   updateVotes(voteInfo) {
-
-    const newVoteInfo = JSON.parse(voteInfo);
+    let newVoteInfo = voteInfo;
+    if (typeof voteInfo !== 'object') {
+      newVoteInfo = JSON.parse(voteInfo);
+    }
     if (newVoteInfo.msg === 'Success') {
       this.setState((state) => {
         const reviews = state.reviews.map((review) => {
