@@ -17,9 +17,9 @@ services:
       retries: 2
   
   reviews:
-    build: .
+    image: user00001/reviews
     depends_on:
       database:
         condition: service_healthy
     ports: 
-      - '3001:3001'
+      -  '3001:3001'

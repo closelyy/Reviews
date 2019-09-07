@@ -15,7 +15,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/reviews/40')
+    let location = window.location.toString();
+    location = location.split('/');
+    let businessId = location[location.length - 1];
+    if (typeof businessId !== 'number') {
+      businessId = 40;
+    }
+
+    fetch(`/api/reviews/${businessId}`)
       .then((response) => {
         const res = response.json();
         return res;

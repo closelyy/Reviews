@@ -7,10 +7,14 @@ const app = express();
 
 // const port = process.env.PORT || 3001;
 const port = 3001;
+const indexPath = path.join(__dirname, './../client/Dist/index.html');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 
+app.get('/businesses/:id', (req, res) => {
+  res.sendFile(indexPath);
+});
 
 app.get(`/api/reviews/:businessId`, (req, res) => {
   console.log(`${req.method} request received from ${req.url}`);
