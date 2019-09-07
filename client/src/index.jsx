@@ -15,7 +15,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/reviews/40')
+    let location = window.location.toString();
+    location = location.split('/');
+    let businessId = location[location.length - 1];
+    if (typeof businessId !== 'number') {
+      businessId = 40;
+    }
+
+    fetch(`/api/reviews/${businessId}`)
       .then((response) => {
         const res = response.json();
         return res;
@@ -38,8 +45,10 @@ class App extends React.Component {
   }
 
   updateVotes(voteInfo) {
-
-    const newVoteInfo = JSON.parse(voteInfo);
+    let newVoteInfo = voteInfo;
+    if (typeof voteInfo !== 'object') {
+      newVoteInfo = JSON.parse(voteInfo);
+    }
     if (newVoteInfo.msg === 'Success') {
       this.setState((state) => {
         const reviews = state.reviews.map((review) => {

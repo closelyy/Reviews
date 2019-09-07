@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  database:
+    container_name: db
+    image: mysql:5.7
+    ports:
+      - "3306:3306"  
+    environment:
+        - MYSQL_ROOT_PASSWORD=mysql
+        - MYSQL_DATABASE=yelp
+    volumes:
+        - ./Database/Schema:/docker-entrypoint-initdb.d/:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 2s
+      retries: 2
+  
+  reviews:
+    image: user00001/reviews
+    depends_on:
+      database:
+        condition: service_healthy
+    ports: 
+      -  '3001:3001'
